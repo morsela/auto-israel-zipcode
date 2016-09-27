@@ -12,6 +12,9 @@ String.prototype.format = function() {
   return str;
 }
 
+function show_alert(alert) {
+  show_alert
+}
 
 function locate_address_from_coords(lat, lng, callback) {
   var geocode_url_template = "https://maps.googleapis.com/maps/api/geocode/json?latlng={0},{1}&sensor=true&language=iw&country=IL"
@@ -53,6 +56,7 @@ function locate_coords_from_address(address, callback) {
         url: geocode_url,
         dataType: 'json',
         success: function(response) {
+          debugger;
     if (response.status != "OK") { 
       callback(undefined);
       return; 
@@ -61,11 +65,11 @@ function locate_coords_from_address(address, callback) {
     var first_result = response.results[0];
     var location     = first_result.geometry.location
 
-    debugger;
-    if (location.partial_match) {
+    if (first_result.partial_match) {
       console.log("couldn't find exact location");
 
-      alert("couldn't find address");
+      show_alert("חיפוש הכתובת לא הצליח")
+
       callback(undefined);
     } else {
       callback(location.lat, location.lng);
@@ -86,7 +90,7 @@ function locate_zipcode_from_address(address) {
               var contentString = '<div id="content">' +
               '<div id="bodyContent" class="text-center">'+
               '<p>המיקוד עבור הכתובת ' + address.street + " " + address.house_number + " " + address.city + " הוא</p>" +
-              '<button class="zipcode-btn" data-clipboard-text="' + zipcode +'" title="הועתק!" data-trigger="click" data-placement="bottom">' + zipcode + '</button>'
+              '<button class="zipcode-btn btn-info btn-md" data-toggle="tooltip" data-clipboard-text="' + zipcode +'" title="הועתק!" data-trigger="click" data-delay="300" data-placement="bottom">' + zipcode + '</button>' +
               '</div>'+
               '</div>';
 
@@ -154,8 +158,11 @@ window.onload = function() {
         street       = address.address_components[1].long_name
         house_number = address.address_components[0].long_name
 
+        var house_number_regex = /(\d+)-{0,1}\d*/;
+        var clean_house_number = house_number.match(house_number_regex)[1]
+
         $("#address_street").val(street);
-        $("#address_house_number").val(house_number);
+        $("#address_house_number").val(clean_house_number);
         $("#address_city").val(city);
 
         var address = get_current_address();
@@ -192,20 +199,6 @@ $(document).ready(function() {
 
     event.preventDefault();
   });
-
-  // $(".address-component").each(function(index) {
-  //   $(this).focus(function() {
-  //       $(this).data('originalValue', this.value);
-  //   });
-
-  //   $(this).blur(function(){
-  //       var original = $(this).data('originalValue');
-
-  //       if (original !== this.value){
-  //           refresh_zipcode();
-  //       }
-  //   });
-  // });
 });
 
 function initMap() {
@@ -217,6 +210,9 @@ function initMap() {
         streetViewControl: false,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         mapTypeControl: false,
+        draggable: false,  
+        scrollwheel: false, 
+        disableDoubleClickZoom: true,
         zoom: 15
     };
 
