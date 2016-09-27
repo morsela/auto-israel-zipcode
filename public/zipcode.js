@@ -14,7 +14,7 @@ String.prototype.format = function() {
 
 
 function locate_address_from_coords(lat, lng, callback) {
-  var geocode_url_template = "http://maps.googleapis.com/maps/api/geocode/json?latlng={0},{1}&sensor=true&language=iw&country=IL"
+  var geocode_url_template = "https://maps.googleapis.com/maps/api/geocode/json?latlng={0},{1}&sensor=true&language=iw&country=IL"
   var geocode_url          = geocode_url_template.format(lat, lng);
 
   $.get({
