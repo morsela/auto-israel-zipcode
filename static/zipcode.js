@@ -1,4 +1,3 @@
-
 var map;
 var marker;
 var infowindow;
@@ -13,7 +12,7 @@ String.prototype.format = function() {
 }
 
 function show_alert(alert) {
-  show_alert
+  alert(alert);
 }
 
 function locate_address_from_coords(lat, lng, callback) {
@@ -86,6 +85,8 @@ function locate_zipcode_from_address(address) {
             var zipcode = resp.zipcode;
 
             if (zipcode != undefined) {
+              ga('send', 'event', "Zipcode", "found");
+
               var contentString = '<div id="content">' +
               '<div id="bodyContent" class="text-center">'+
               '<p>המיקוד עבור הכתובת ' + address.street + " " + address.house_number + " " + address.city + " הוא</p>" +
@@ -164,6 +165,8 @@ window.onload = function() {
   }
 
   var geoSuccess = function(position) {
+    ga('send', 'event', "Geolocation - Current Position", "success");
+
     refresh_coords(position.coords.latitude, position.coords.longitude)
     locate_address_from_coords(position.coords.latitude, position.coords.longitude, function(address) {
       if (address != undefined) {
@@ -185,6 +188,8 @@ window.onload = function() {
   };
 
   var geoError = function(error) {
+    ga('send', 'event', "Geolocation - Current Position", "failure");
+
     set_default_coords();
 
     console.log('Error occurred. Error code: ' + error.code);
@@ -196,6 +201,8 @@ window.onload = function() {
     navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
   }
   else {
+    ga('send', 'event', "Geolocation", "not supported");
+
     set_default_coords();
 
     console.log('Geolocation is not supported for this Browser.');
@@ -206,12 +213,16 @@ $(document).ready(function() {
   var clipboard = new Clipboard('.zipcode-btn');
 
   clipboard.on('success', function(e) {
+    ga('send', 'event', "Zipcode", "copied");
+
     $(".zipcode-btn").tooltip("show");
 
     e.clearSelection();
   });  
 
   $(".search-form").submit(function(event) {
+    ga('send', 'event', "Search", "tapped");
+
     refresh_zipcode();
 
     event.preventDefault();
