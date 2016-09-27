@@ -3,7 +3,11 @@ var app = express();
 var http = require('http');
 var request = require('request');
 
-app.use(express.static('public'));
+app.set('port', (process.env.PORT || 5000));
+
+app.use(express.static(__dirname + '/public'));
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
 
 var bodyParser = require('body-parser')
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
@@ -29,7 +33,7 @@ function search_zipcode(location, street, house_number, callback) {
 }
 
 app.get('/', function (req, res) {
-	res.sendFile(__dirname + "/public/" + "zipcode.html");
+    res.render('pages/index');
 });
 
 app.post('/locate', function (req, res) {
@@ -46,6 +50,6 @@ app.post('/locate', function (req, res) {
 	}
 });
 
-app.listen(3000, function () {
-  console.log('listening on port 3000!');
+app.listen(app.get('port'), function () {
+    console.log('Node app is running on port', app.get('port'));
 });
