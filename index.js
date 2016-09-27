@@ -6,8 +6,13 @@ var request = require('request');
 app.set('port', (process.env.PORT || 5000));
 
 app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/javascript'));
+app.use(express.static(__dirname + '/css'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+
+var minify = require('express-minify');
+app.use(minify());
 
 var bodyParser = require('body-parser')
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
