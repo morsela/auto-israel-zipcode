@@ -1,0 +1,55 @@
+<html dir="rtl">
+<head>
+<title>Israeli Zipcode Easy Retrieval</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.0/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
+
+<link href='//fonts.googleapis.com/css?family=Raleway:100,400,300,500,600,700%7COpen+Sans:400,500,600' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="zipcode.css" />
+
+</head>
+
+<body>
+
+<div class="main-container">
+    <section class="header">
+        <div class="container">
+            <div class="row mb32 mb-xs-24">
+                <div class="col-md-10 col-md-offset-1 col-sm-12 text-center header">
+                    <h2>איתור מיקוד</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="map">
+        <div>
+            <div id="map-holder" />
+        </div>
+
+        <div class="search">
+            <form class="search-form form-horizontal col-xs-offset-10 col-xs-2">
+                <input type="street" dir="rtl" class="input-large form-control address-component" placeholder="רחוב" id="address_street">
+                <input type="house_number" dir="rtl" class="input-large form-control address-component" placeholder="מספר בית" id="address_house_number">
+                <input type="city" dir="rtl" class="input-large form-control address-component" placeholder="עיר" id="address_city">
+                <button type="submit" class="btn btn-block">מצא</button>
+            </form>
+        </div>
+    </section>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <span class="text-muted"><a href="mailto:morsela+mikud@gmail.com">צור קשר</a></span>
+  </div>
+</footer>
+
+<script src="zipcode.js"></script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBZIpQRYPSPLdJ5vf0TA3pKJaLa1JsCxo&language=he&callback=initMap">
+</script>
+
+</body>
+</html>
