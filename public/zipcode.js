@@ -56,7 +56,6 @@ function locate_coords_from_address(address, callback) {
         url: geocode_url,
         dataType: 'json',
         success: function(response) {
-          debugger;
     if (response.status != "OK") { 
       callback(undefined);
       return; 
@@ -132,16 +131,30 @@ function refresh_zipcode() {
 }
 
 function refresh_coords(lat, lng) {
+  set_map_center(lat, lng);
+
+  var position_data = {
+      lat: lat,
+      lng: lng
+    };
+  
+  marker = new google.maps.Marker({
+    position: position_data,
+    map: map
+  });
+}
+
+function set_default_coords() {
+  set_map_center(32.0721745, 34.7768096);
+}
+
+function set_map_center(lat, lng) {
   var position_data = {
       lat: lat,
       lng: lng
     };
 
-    map.setCenter(position_data);
-    marker = new google.maps.Marker({
-      position: position_data,
-      map: map
-    });
+  map.setCenter(position_data);
 }
 
 window.onload = function() {
@@ -172,6 +185,8 @@ window.onload = function() {
   };
 
   var geoError = function(error) {
+    set_default_coords();
+
     console.log('Error occurred. Error code: ' + error.code);
   };
 
@@ -181,6 +196,8 @@ window.onload = function() {
     navigator.geolocation.getCurrentPosition(geoSuccess, geoError, geoOptions);
   }
   else {
+    set_default_coords();
+
     console.log('Geolocation is not supported for this Browser.');
   }
 };
@@ -202,6 +219,8 @@ $(document).ready(function() {
 });
 
 function initMap() {
+    var default_center = {lat: -34.397, lng: 150.644};
+
     var options = {
         fullscreenControl: false,
         panControl: false,
@@ -213,7 +232,7 @@ function initMap() {
         draggable: false,  
         scrollwheel: false, 
         disableDoubleClickZoom: true,
-        zoom: 15
+        zoom: 15,
     };
 
     map = new google.maps.Map(document.getElementById('map-holder'), options);
