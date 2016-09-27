@@ -29,7 +29,7 @@ function search_zipcode(location, street, house_number, callback) {
         json: true,
         qs: { "Location": location, "POB": "", "Street": street, "House": house_number, "Entrance": ""}
     }, function(error, response, body) {
-    	if (error) { 
+    	if (error || body == undefined) { 
     		console.log(error); 
     		callback(undefined);
     		return; 
