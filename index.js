@@ -1,18 +1,20 @@
+var minify = require('express-minify');
+var compression = require('compression');
 var express = require('express');
+
 var app = express();
 var http = require('http');
 var request = require('request');
 
 app.set('port', (process.env.PORT || 5000));
 
+app.use(compression());
+app.use(minify());
+
+app.use(express.static(__dirname + '/static'));
 app.use(express.static(__dirname + '/public'));
-app.use(express.static(__dirname + '/javascript'));
-app.use(express.static(__dirname + '/css'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
-
-var minify = require('express-minify');
-app.use(minify());
 
 var bodyParser = require('body-parser')
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
