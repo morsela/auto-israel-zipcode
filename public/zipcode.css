@@ -34,7 +34,7 @@ html, body {
 
 .search {
 	position: relative;
-	bottom: 180px;
+	bottom: 170px;
     z-index: 100;
 }
 
