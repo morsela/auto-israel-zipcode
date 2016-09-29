@@ -23,11 +23,13 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 })); 
 
 function search_zipcode(location, street, house_number, callback) {
-	request({
+	request.get({
         uri: "http://www.israelpost.co.il/zip_data.nsf/SearchZipJSON?OpenAgent",
-        method: 'GET',
         json: true,
-        qs: { "Location": location, "POB": "", "Street": street, "House": house_number, "Entrance": ""}
+        qs: { "Location": location, "POB": "", "Street": street, "House": house_number, "Entrance": ""},
+        headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 6.2; rv:20.0) Gecko/20121202 Firefox/20.0'
+        }
     }, function(error, response, body) {
     	if (error || body == undefined) { 
     		console.log(error); 
